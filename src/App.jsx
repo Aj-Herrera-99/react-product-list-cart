@@ -37,6 +37,7 @@ const productsReducer = (state, action) => {
 
 function App() {
     const [products, dispatchProducts] = useReducer(productsReducer, []);
+    const [isModal, setIsModal] = useState(false);
 
     const incProdSel = (product) => {
         dispatchProducts({ type: "INCREMENT", prod: product });
@@ -63,6 +64,10 @@ function App() {
             });
     }, []);
 
+    // if(!isModal){
+    //     const root = document.getElementById("root");
+    // }
+
     useEffect(() => {
         console.log(products);
     }, [products]);
@@ -83,8 +88,22 @@ function App() {
                 </main>
             </section>
             <section className="cart bg-red-400 w-full p-8 sm:w-2/6">
-                <Cart products={products} remProdSel={remProdSel} />
+                <Cart
+                    products={products}
+                    remProdSel={remProdSel}
+                    isModal={isModal}
+                    setIsModal={setIsModal}
+                />
             </section>
+            {isModal && (
+                <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                    <Cart
+                        products={products}
+                        isModal={isModal}
+                        setIsModal={setIsModal}
+                    />
+                </div>
+            )}
         </>
     );
 }
