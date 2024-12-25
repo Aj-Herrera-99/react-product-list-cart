@@ -1,5 +1,6 @@
 import { useReducer, useState, useEffect } from "react";
 import { GlobalContext } from "./state-management/stores/GlobalContext";
+import productsReducer from "./state-management/reducers/products";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Card from "./components/Card";
@@ -53,7 +54,6 @@ const ModalContainer = styled.div`
 `;
 
 function App() {
-    // todo: creare un altro stato per la gestione dei dessert in carrello (ottimizzazione)
     const [initData, setInitData] = useState([]);
     const [products, dispatchProducts] = useReducer(productsReducer, {
         prods: [],
@@ -129,52 +129,5 @@ function App() {
     );
 }
 
-function productsReducer(state, action) {
-    if (action.type === "FETCH_INIT") return { ...state, prods: action.prod };
-
-    if (action.type === "INCREMENT") {
-        const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
-        const newState = state.prods.map((prod) => {
-            return prod.id === prodSel.id
-                ? { ...prodSel, quantity: action.prod.quantity + 1 }
-                : prod;
-        });
-        return {
-            prods: newState,
-            count: state.count + 1,
-            total: state.total + action.prod.price,
-        };
-    }
-    if (action.type === "DECREMENT") {
-        const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
-        // if (action.prod.quantity === 0) return state;
-        const newState = state.prods.map((prod) => {
-            return prod.id === prodSel.id
-                ? { ...prodSel, quantity: action.prod.quantity - 1 }
-                : prod;
-        });
-        return {
-            prods: newState,
-            count: state.count - 1,
-            total: state.total - action.prod.price,
-        };
-    }
-    if (action.type === "REMOVE") {
-        const subCount = action.prod.quantity;
-        const subTotal = action.prod.price * action.prod.quantity;
-        const newState = state.prods.map((prod) => {
-            return prod.id == action.prod.id ? { ...prod, quantity: 0 } : prod;
-        });
-        return {
-            prods: newState,
-            count: state.count - subCount,
-            total: state.total - subTotal,
-        };
-    }
-
-    if (action.type === "RESET") {
-        return { prods: action.prod, count: 0, total: 0 };
-    }
-}
 
 export default App;
