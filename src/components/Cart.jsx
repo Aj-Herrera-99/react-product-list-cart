@@ -1,14 +1,9 @@
 import CartBtn from "./CartBtn";
+import CartDesc from "./CartDesc";
 import CartItem from "./CartItem";
+import CartTotal from "./CartTotal";
 
-function Cart({
-    products,
-    remProdSel,
-    isModal,
-    setIsModal,
-    name,
-    resetQuantities,
-}) {
+function Cart({ products, isModal, name, actions }) {
     let count = 0;
     let total = 0;
     products.forEach((prod) => {
@@ -18,44 +13,32 @@ function Cart({
 
     return (
         <div
-            className={`bg-white rounded-lg p-5 min-w-[70vw] sm:min-w-[200px] lg:min-w-[300px] ${
-                name == "modal" && "shadow-[0_0_0_999px_rgba(0,0,0,0.5)]"
-            }`}
+            className={`bg-white rounded-lg p-5 w-full ${name==="modal" && "max-h-[95vh] overflow-y-auto"} `}
         >
-            <CartDesc count={count} name={name}></CartDesc>
-            <div>
-                {products
-                    .filter((product) => product.quantity > 0)
-                    .map((product) => (
-                        <CartItem
-                            key={product.id}
-                            product={product}
-                            remProdSel={remProdSel}
-                            isModal={isModal}
-                            name={name}
-                        ></CartItem>
-                    ))}
-            </div>
-            {total != 0 && (
-                <div className="flex items-center justify-between py-3">
-                    <>
-                        <span>Order Total</span>
-
-                        <span className="text-2xl font-bold">
-                            ${total.toFixed(2)}
-                        </span>
-                    </>
-                </div>
-            )}
+            <CartDesc count={count} name={name} />
+            {products
+                .filter((product) => product.quantity > 0)
+                .map((product) => (
+                    <CartItem
+                        key={product.id}
+                        name={name}
+                        product={product}
+                        remProdSel={actions.remProdSel}
+                        isModal={isModal}
+                    />
+                ))}
             {count !== 0 && (
                 <>
+                    <CartTotal total={total} />
                     {name === "cart" ? (
-                        <CartBtn setIsModal={setIsModal}>Confirm Order</CartBtn>
+                        <CartBtn setIsModal={actions.setIsModal}>
+                            Confirm Order
+                        </CartBtn>
                     ) : (
                         <CartBtn
                             name={name}
-                            action={resetQuantities}
-                            setIsModal={setIsModal}
+                            resetQuantities={actions.resetQuantities}
+                            setIsModal={actions.setIsModal}
                         >
                             Start New Order
                         </CartBtn>
@@ -63,24 +46,6 @@ function Cart({
                 </>
             )}
         </div>
-    );
-}
-
-function CartDesc({ count, name }) {
-    return (
-        <>
-            {name === "cart" ? (
-                <h2 className="text-2xl font-bold">
-                    Your Cart ({count !== 0 && count})
-                </h2>
-            ) : (
-                <div className="">
-                    <i className="p-2 mb-3 text-green-500 border-2 border-green-500 rounded-full fa-solid fa-check"></i>
-                    <h2 className="text-2xl font-bold">Order Confirmed</h2>
-                    <p>We hope you enjoy your food!</p>
-                </div>
-            )}
-        </>
     );
 }
 

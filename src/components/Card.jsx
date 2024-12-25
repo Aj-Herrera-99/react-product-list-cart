@@ -32,11 +32,7 @@ function Card({ product, actions }) {
                 <OpsBtns
                     isZero={isZero}
                     product={product}
-                    actions={{
-                        setIsZero,
-                        incProdSel: actions.incProdSel,
-                        decProdSel: actions.decProdSel,
-                    }}
+                    actions={{...actions, setIsZero}}
                 ></OpsBtns>
             </div>
             <div className="flex flex-col">

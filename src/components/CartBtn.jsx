@@ -1,13 +1,13 @@
-function CartBtn({ setIsModal, name, action, children }) {
-    const handleSetIsModal = (e) => {
+function CartBtn({ setIsModal, name, resetQuantities, children }) {
+    const handleClick = () => {
         setIsModal((curr) => !curr);
         if (name && name === "modal") {
-            action();
+            resetQuantities();
         }
     };
     return (
         <button
-            onClick={handleSetIsModal}
+            onClick={handleClick}
             className="w-full p-2 text-white bg-orange-600 rounded-3xl"
         >
             {children}

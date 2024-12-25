@@ -1,13 +1,15 @@
 function CartItem({ product, remProdSel,  name }) {
     return (
-        <div className="py-3 border-b border-b-stone-300 flex items-center relative">
-            <div className="h-20 w-full flex">
+        <div className="relative flex items-center py-5 border-b border-b-stone-300">
+            <div className="flex flex-wrap w-full gap-2">
                 {name === "modal" && (
-                    <img
-                        src={product.image.thumbnail}
-                        alt=""
-                        className="h-full object-cover float-left rounded-md mr-2"
-                    />
+                    <div>
+                        <img
+                            src={product.image.thumbnail}
+                            alt=""
+                            className="object-cover h-full rounded-md "
+                        />
+                    </div>
                 )}
                 <div className="flex flex-col justify-center ">
                     <span>{product.name}</span>
@@ -23,7 +25,7 @@ function CartItem({ product, remProdSel,  name }) {
             {name === "cart" && (
                 <i
                     onClick={() => remProdSel(product)}
-                    className="fa-solid fa-xmark hover:scale-125 cursor-pointer border border-black rounded-full aspect-square w-6 flex items-center justify-center"
+                    className="flex items-center justify-center w-6 border border-black rounded-full cursor-pointer fa-solid fa-xmark hover:scale-125 aspect-square"
                 ></i>
             )}
         </div>

@@ -1,44 +1,55 @@
-import { useReducer, useState } from "react";
-import "./App.css";
-import { useEffect } from "react";
+import { useReducer, useState, useEffect } from "react";
+import styled from "styled-components";
 import Header from "./components/Header";
 import Card from "./components/Card";
 import Cart from "./components/Cart";
+import "./App.css";
 
-const productsReducer = (state, action) => {
-    if (action.type === "FETCH_INIT") return action.prod;
+const CardsSection = styled.section`
+    width: 100%;
+    @media (min-width: 768px) {
+        width: calc(100% * (4 / 6));
+    }
+`;
+const CartSection = styled.section`
+    width: 100%;
+    padding-inline: 2rem;
+    @media (min-width: 768px) {
+        width: calc(100% * (2 / 6));
+    }
+`;
 
-    if (action.type === "INCREMENT") {
-        const prodSel = state.find((prod) => prod.id === action.prod.id);
-        const newState = state.map((prod) => {
-            return prod.id === prodSel.id
-                ? { ...prodSel, quantity: action.prod.quantity + 1 }
-                : prod;
-        });
-        return newState;
+const Main = styled.main`
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    @media (min-width: 640px) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-    if (action.type === "DECREMENT") {
-        const prodSel = state.find((prod) => prod.id === action.prod.id);
-        if (action.prod.quantity === 0) return state;
-        const newState = state.map((prod) => {
-            return prod.id === prodSel.id
-                ? { ...prodSel, quantity: action.prod.quantity - 1 }
-                : prod;
-        });
-        return newState;
+    @media (min-width: 1024px) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-    if (action.type === "REMOVE") {
-        const newState = state.map((prod) => {
-            return prod.id == action.prod.id ? { ...prod, quantity: 0 } : prod;
-        });
-        return newState;
-    }
+`;
 
-    if (action.type === "RESET") {
-        const resetState = state.map((prod) => ({ ...prod, quantity: 0 }));
-        return resetState;
+const ModalContainer = styled.div`
+    display: ${(props) => (props.$isModal ? "flex" : "none")};
+    background-color: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    justify-content: center;
+    align-items: end;
+    @media (min-width: 640px) {
+        padding-inline: 25%;
+        align-items: center;
     }
-};
+    @media (min-width: 1024px) {
+        padding-inline: 30%;
+    }
+`;
 
 function App() {
     const [products, dispatchProducts] = useReducer(productsReducer, []);
@@ -74,40 +85,71 @@ function App() {
 
     return (
         <>
-            <section className="w-full p-8 bg-red-300 products sm:w-4/6">
+            <CardsSection>
                 <Header title="Desserts" />
-                <main className="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-3">
+                <Main>
                     {products.map((product) => (
                         <Card
                             key={product.id}
                             product={product}
-                            actions={{incProdSel, decProdSel}}
+                            actions={{ incProdSel, decProdSel }}
                         ></Card>
                     ))}
-                </main>
-            </section>
-            <section className="w-full p-8 bg-red-400 cart sm:w-2/6">
+                </Main>
+            </CardsSection>
+            <CartSection>
                 <Cart
-                    products={products}
-                    remProdSel={remProdSel}
-                    isModal={isModal}
-                    setIsModal={setIsModal}
                     name="cart"
+                    products={products}
+                    isModal={isModal}
+                    actions={{ remProdSel, setIsModal }}
                 />
-            </section>
-            {isModal && (
-                <div className="fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-                    <Cart
-                        products={products}
-                        isModal={isModal}
-                        setIsModal={setIsModal}
-                        name="modal"
-                        resetQuantities={resetQuantities}
-                    />
-                </div>
-            )}
+            </CartSection>
+            <ModalContainer $isModal={isModal}>
+                <Cart
+                    name="modal"
+                    products={products}
+                    isModal={isModal}
+                    actions={{ resetQuantities, setIsModal }}
+                />
+            </ModalContainer>
         </>
     );
+}
+
+function productsReducer(state, action) {
+    if (action.type === "FETCH_INIT") return action.prod;
+
+    if (action.type === "INCREMENT") {
+        const prodSel = state.find((prod) => prod.id === action.prod.id);
+        const newState = state.map((prod) => {
+            return prod.id === prodSel.id
+                ? { ...prodSel, quantity: action.prod.quantity + 1 }
+                : prod;
+        });
+        return newState;
+    }
+    if (action.type === "DECREMENT") {
+        const prodSel = state.find((prod) => prod.id === action.prod.id);
+        if (action.prod.quantity === 0) return state;
+        const newState = state.map((prod) => {
+            return prod.id === prodSel.id
+                ? { ...prodSel, quantity: action.prod.quantity - 1 }
+                : prod;
+        });
+        return newState;
+    }
+    if (action.type === "REMOVE") {
+        const newState = state.map((prod) => {
+            return prod.id == action.prod.id ? { ...prod, quantity: 0 } : prod;
+        });
+        return newState;
+    }
+
+    if (action.type === "RESET") {
+        const resetState = state.map((prod) => ({ ...prod, quantity: 0 }));
+        return resetState;
+    }
 }
 
 export default App;

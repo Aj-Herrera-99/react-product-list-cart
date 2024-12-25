@@ -16,7 +16,7 @@ function OpsBtns({ isZero, product, actions }) {
     return (
         <div
             onClick={operation}
-            className={`absolute w-1/2 bg-white left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] select-none ${
+            className={`absolute w-1/2 sm:w-3/5 lg:w-3/4 xl:w-1/2 bg-white left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] select-none ${
                 isZero && "cursor-pointer"
             }`}
         >
