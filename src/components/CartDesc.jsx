@@ -1,9 +1,15 @@
-function CartDesc({ count, name }) {
+import { useContext } from "react";
+import { GlobalContext } from "../state-management/stores/GlobalContext";
+
+function CartDesc({ name }) {
+
+    const {products} = useContext(GlobalContext)
+
     return (
         <>
             {name === "cart" ? (
                 <h2 className="text-2xl font-bold">
-                    Your Cart ({count})
+                    Your Cart ({products.count})
                 </h2>
             ) : (
                 <div className="">

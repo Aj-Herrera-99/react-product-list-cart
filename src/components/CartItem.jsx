@@ -1,4 +1,8 @@
-function CartItem({ product, remProdSel,  name }) {
+import { useContext } from "react";
+import { GlobalContext } from "../state-management/stores/GlobalContext";
+
+function CartItem({ product, name }) {
+    const { remProdSel } = useContext(GlobalContext);
     return (
         <div className="relative flex items-center py-5 border-b border-b-stone-300">
             <div className="flex flex-wrap w-full gap-2">

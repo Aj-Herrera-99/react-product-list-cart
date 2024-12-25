@@ -1,4 +1,9 @@
-function CartBtn({ setIsModal, name, resetQuantities, children }) {
+import { useContext } from "react";
+import { GlobalContext } from "../state-management/stores/GlobalContext";
+
+function CartBtn({ name, children }) {
+    const { resetQuantities, setIsModal } = useContext(GlobalContext);
+
     const handleClick = () => {
         setIsModal((curr) => !curr);
         if (name && name === "modal") {

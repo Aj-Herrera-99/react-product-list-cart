@@ -1,15 +1,6 @@
-import { useEffect, useState } from "react";
-import OpsBtns from "./OpsBtns";
+import CardButtons from "./CardButtons";
 
-function Card({ product, actions }) {
-    const [isZero, setIsZero] = useState(true);
-
-    useEffect(() => {
-        if (product.quantity === 0) {
-            setIsZero(true);
-        }
-    }, [product]);
-
+function Card({ product }) {
     return (
         <div>
             <div className="relative mb-6 aspect-video lg:aspect-square">
@@ -29,11 +20,7 @@ function Card({ product, actions }) {
                     />
                 </picture>
 
-                <OpsBtns
-                    isZero={isZero}
-                    product={product}
-                    actions={{...actions, setIsZero}}
-                ></OpsBtns>
+                <CardButtons product={product}></CardButtons>
             </div>
             <div className="flex flex-col">
                 <span>{product.category}</span>

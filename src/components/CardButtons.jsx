@@ -1,15 +1,29 @@
-function OpsBtns({ isZero, product, actions }) {
+import { useContext } from "react";
+import { GlobalContext } from "../state-management/stores/GlobalContext";
+import { useState, useEffect } from "react";
+
+function CardButtons({ product }) {
+    const { incProdSel, decProdSel } = useContext(GlobalContext);
+
+    const [isZero, setIsZero] = useState(true);
+
+    useEffect(() => {
+        if (product.quantity === 0) {
+            setIsZero(true);
+        }
+    }, [product]);
+
     const operation = (e) => {
         e.stopPropagation();
         if (e.target.matches("div")) {
             if (isZero) {
-                actions.incProdSel(product);
-                actions.setIsZero(false);
+                incProdSel(product);
+                setIsZero(false);
             }
         } else if (e.target.closest(".fa-minus")) {
-            actions.decProdSel(product);
+            decProdSel(product);
         } else if (e.target.closest(".fa-plus")) {
-            actions.incProdSel(product);
+            incProdSel(product);
         }
     };
 
@@ -39,4 +53,4 @@ function OpsBtns({ isZero, product, actions }) {
     );
 }
 
-export default OpsBtns;
+export default CardButtons;

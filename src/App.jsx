@@ -1,4 +1,5 @@
 import { useReducer, useState, useEffect } from "react";
+import { GlobalContext } from "./state-management/stores/GlobalContext";
 import styled from "styled-components";
 import Header from "./components/Header";
 import Card from "./components/Card";
@@ -92,7 +93,17 @@ function App() {
     }, []);
 
     return (
-        <>
+        <GlobalContext.Provider
+            value={{
+                products,
+                incProdSel,
+                decProdSel,
+                remProdSel,
+                resetQuantities,
+                isModal,
+                setIsModal,
+            }}
+        >
             <CardsSection>
                 <Header title="Desserts" />
                 <Main>
@@ -100,7 +111,6 @@ function App() {
                         <Card
                             key={product.id}
                             product={product}
-                            actions={{ incProdSel, decProdSel }}
                         ></Card>
                     ))}
                 </Main>
@@ -108,26 +118,19 @@ function App() {
             <CartSection>
                 <Cart
                     name="cart"
-                    products={products}
-                    isModal={isModal}
-                    actions={{ remProdSel, setIsModal }}
                 />
             </CartSection>
             <ModalContainer $isModal={isModal}>
                 <Cart
                     name="modal"
-                    products={products}
-                    isModal={isModal}
-                    actions={{ resetQuantities, setIsModal }}
                 />
             </ModalContainer>
-        </>
+        </GlobalContext.Provider>
     );
 }
 
 function productsReducer(state, action) {
-    if (action.type === "FETCH_INIT")
-        return { prods: action.prod, count: 0, total: 0 };
+    if (action.type === "FETCH_INIT") return { ...state, prods: action.prod };
 
     if (action.type === "INCREMENT") {
         const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
@@ -144,7 +147,7 @@ function productsReducer(state, action) {
     }
     if (action.type === "DECREMENT") {
         const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
-        if (action.prod.quantity === 0) return state;
+        // if (action.prod.quantity === 0) return state;
         const newState = state.prods.map((prod) => {
             return prod.id === prodSel.id
                 ? { ...prodSel, quantity: action.prod.quantity - 1 }
@@ -159,8 +162,6 @@ function productsReducer(state, action) {
     if (action.type === "REMOVE") {
         const subCount = action.prod.quantity;
         const subTotal = action.prod.price * action.prod.quantity;
-        console.log(subCount);
-        console.log(subTotal);
         const newState = state.prods.map((prod) => {
             return prod.id == action.prod.id ? { ...prod, quantity: 0 } : prod;
         });
