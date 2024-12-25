@@ -1,6 +1,6 @@
 function CartBadge() {
     return (
-        <div className="flex gap-2 py-3 mb-5 bg-[#f4edeb] rounded-md">
+        <div className="flex gap-2 py-3 justify-center mb-5 bg-[#f4edeb] rounded-md">
             <img
                 src="assets/images/icon-carbon-neutral.svg"
                 alt="icon carbon neutral"

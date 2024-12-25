@@ -5,6 +5,7 @@ import CartItem from "./CartItem";
 import CartTotal from "./CartTotal";
 import { GlobalContext } from "../state-management/stores/GlobalContext";
 import CartBadge from "./CartBadge";
+import CartEmptyIcon from "./CartEmptyIcon";
 
 function Cart({ name }) {
     const { products } = useContext(GlobalContext);
@@ -34,18 +35,7 @@ function Cart({ name }) {
                     )}
                 </>
             ) : (
-                <div className="flex justify-center">
-                    <figure>
-                        <img
-                            className="mx-auto"
-                            src="assets/images/illustration-empty-cart.svg"
-                            alt="illustration empty cart"
-                        />
-                        <figcaption>
-                            Your added items will appear here
-                        </figcaption>
-                    </figure>
-                </div>
+                <CartEmptyIcon/>
             )}
         </div>
     );

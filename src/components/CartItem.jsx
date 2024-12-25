@@ -5,9 +5,9 @@ function CartItem({ product, name }) {
     const { remProdSel } = useContext(GlobalContext);
     return (
         <div className="relative flex items-center py-5 border-b border-b-stone-300">
-            <div className="flex flex-wrap w-full gap-2">
+            <div className="flex flex-wrap w-full gap-2 h-14">
                 {name === "modal" && (
-                    <div>
+                    <div className="h-full">
                         <img
                             src={product.image.thumbnail}
                             alt=""
@@ -15,7 +15,7 @@ function CartItem({ product, name }) {
                         />
                     </div>
                 )}
-                <div className="flex flex-col justify-center ">
+                <div className="flex flex-col justify-between ">
                     <span className="text-[#260f08]">{product.name}</span>
                     <div className="flex gap-4">
                         <span className="text-[#c73a0f]">

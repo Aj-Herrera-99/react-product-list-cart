@@ -51,7 +51,7 @@ const ModalContainer = styled.div`
         align-items: center;
     }
     @media (min-width: 1024px) {
-        padding-inline: 30%;
+        padding-inline: 35%;
     }
 `;
 
