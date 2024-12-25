@@ -23,7 +23,7 @@ function OpsBtns({ isZero, product, actions }) {
             {isZero ? (
                 <>Add to Cart</>
             ) : (
-                <div className="relative">
+                <>
                     <i
                         onClick={operation}
                         className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer left-2 top-1/2 fa-solid fa-minus"
@@ -33,7 +33,7 @@ function OpsBtns({ isZero, product, actions }) {
                         onClick={operation}
                         className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer right-2 top-1/2 fa-solid fa-plus"
                     ></i>
-                </div>
+                </>
             )}
         </div>
     );

@@ -52,6 +52,8 @@ const ModalContainer = styled.div`
 `;
 
 function App() {
+    // todo: creare un altro stato per la gestione dei dessert in carrello (ottimizzazione)
+    const [initData, setInitData] = useState([]);
     const [products, dispatchProducts] = useReducer(productsReducer, []);
     const [isModal, setIsModal] = useState(false);
 
@@ -67,8 +69,8 @@ function App() {
         dispatchProducts({ type: "REMOVE", prod: product });
     };
 
-    const resetQuantities = (data) => {
-        dispatchProducts({ type: "RESET" });
+    const resetQuantities = () => {
+        dispatchProducts({ type: "RESET", prod: initData });
     };
 
     useEffect(() => {
@@ -79,8 +81,10 @@ function App() {
                     item.id = index + 1;
                     item.quantity = 0;
                 });
+                setInitData(data);
                 dispatchProducts({ type: "FETCH_INIT", prod: data });
-            });
+            })
+            .catch((err) => console.error(err));
     }, []);
 
     return (
@@ -147,8 +151,7 @@ function productsReducer(state, action) {
     }
 
     if (action.type === "RESET") {
-        const resetState = state.map((prod) => ({ ...prod, quantity: 0 }));
-        return resetState;
+        return action.prod;
     }
 }
 
