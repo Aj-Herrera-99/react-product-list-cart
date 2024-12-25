@@ -1,7 +1,14 @@
 import CartBtn from "./CartBtn";
 import CartItem from "./CartItem";
 
-function Cart({ products, remProdSel, isModal, setIsModal }) {
+function Cart({
+    products,
+    remProdSel,
+    isModal,
+    setIsModal,
+    name,
+    resetQuantities,
+}) {
     let count = 0;
     let total = 0;
     products.forEach((prod) => {
@@ -9,11 +16,13 @@ function Cart({ products, remProdSel, isModal, setIsModal }) {
         total += prod.quantity != 0 ? prod.price * prod.quantity : 0;
     });
 
-    console.log(total);
-
     return (
-        <div className={`bg-white rounded-lg p-5 ${isModal && "shadow-[0_0_0_999px_rgba(0,0,0,0.5)]"}`}>
-            <CartDesc count={count} isModal={isModal}></CartDesc>
+        <div
+            className={`bg-white rounded-lg p-5 min-w-[70vw] sm:min-w-[200px] lg:min-w-[300px] ${
+                name == "modal" && "shadow-[0_0_0_999px_rgba(0,0,0,0.5)]"
+            }`}
+        >
+            <CartDesc count={count} name={name}></CartDesc>
             <div>
                 {products
                     .filter((product) => product.quantity > 0)
@@ -23,6 +32,7 @@ function Cart({ products, remProdSel, isModal, setIsModal }) {
                             product={product}
                             remProdSel={remProdSel}
                             isModal={isModal}
+                            name={name}
                         ></CartItem>
                     ))}
             </div>
@@ -38,24 +48,34 @@ function Cart({ products, remProdSel, isModal, setIsModal }) {
                 </div>
             )}
             {count !== 0 && (
-                <CartBtn setIsModal={setIsModal}>
-                    {isModal ? "Start New Order" : "Confirm Order"}
-                </CartBtn>
+                <>
+                    {name === "cart" ? (
+                        <CartBtn setIsModal={setIsModal}>Confirm Order</CartBtn>
+                    ) : (
+                        <CartBtn
+                            name={name}
+                            action={resetQuantities}
+                            setIsModal={setIsModal}
+                        >
+                            Start New Order
+                        </CartBtn>
+                    )}
+                </>
             )}
         </div>
     );
 }
 
-function CartDesc({ count, isModal }) {
+function CartDesc({ count, name }) {
     return (
         <>
-            {!isModal ? (
+            {name === "cart" ? (
                 <h2 className="text-2xl font-bold">
                     Your Cart ({count !== 0 && count})
                 </h2>
             ) : (
                 <div className="">
-                    <i className="fa-solid fa-check text-green-500 border-2 border-green-500 p-2 rounded-full mb-3"></i>
+                    <i className="p-2 mb-3 text-green-500 border-2 border-green-500 rounded-full fa-solid fa-check"></i>
                     <h2 className="text-2xl font-bold">Order Confirmed</h2>
                     <p>We hope you enjoy your food!</p>
                 </div>

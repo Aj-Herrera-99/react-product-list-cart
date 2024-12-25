@@ -1,8 +1,8 @@
-function CartItem({ product, remProdSel, isModal }) {
+function CartItem({ product, remProdSel,  name }) {
     return (
         <div className="py-3 border-b border-b-stone-300 flex items-center relative">
             <div className="h-20 w-full flex">
-                {isModal && (
+                {name === "modal" && (
                     <img
                         src={product.image.thumbnail}
                         alt=""
@@ -20,7 +20,7 @@ function CartItem({ product, remProdSel, isModal }) {
                     </div>
                 </div>
             </div>
-            {!isModal && (
+            {name === "cart" && (
                 <i
                     onClick={() => remProdSel(product)}
                     className="fa-solid fa-xmark hover:scale-125 cursor-pointer border border-black rounded-full aspect-square w-6 flex items-center justify-center"

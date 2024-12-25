@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import OpsBtns from "./OpsBtns";
 
-function Card({ product, incProdSel, decProdSel }) {
+function Card({ product, actions }) {
     const [isZero, setIsZero] = useState(true);
 
     useEffect(() => {
@@ -25,16 +25,18 @@ function Card({ product, incProdSel, decProdSel }) {
                     <img
                         src={product.image.mobile}
                         alt={product.name}
-                        className="rounded-2xl w-full h-full object-cover"
+                        className="object-cover w-full h-full rounded-2xl"
                     />
                 </picture>
 
                 <OpsBtns
                     isZero={isZero}
-                    setIsZero={setIsZero}
                     product={product}
-                    incProdSel={incProdSel}
-                    decProdSel={decProdSel}
+                    actions={{
+                        setIsZero,
+                        incProdSel: actions.incProdSel,
+                        decProdSel: actions.decProdSel,
+                    }}
                 ></OpsBtns>
             </div>
             <div className="flex flex-col">
@@ -43,7 +45,7 @@ function Card({ product, incProdSel, decProdSel }) {
                 <span>${product.price.toFixed(2)}</span>
             </div>
         </div>
-    );  
+    );
 }
 
 export default Card;

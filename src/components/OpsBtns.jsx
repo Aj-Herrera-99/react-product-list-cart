@@ -1,17 +1,15 @@
-function OpsBtns({ isZero, setIsZero, product, incProdSel, decProdSel }) {
+function OpsBtns({ isZero, product, actions }) {
     const operation = (e) => {
         e.stopPropagation();
-        console.log(e.target);
         if (e.target.matches("div")) {
             if (isZero) {
-                incProdSel(product);
-                setIsZero(false);
+                actions.incProdSel(product);
+                actions.setIsZero(false);
             }
         } else if (e.target.closest(".fa-minus")) {
-            console.log("test");
-            decProdSel(product);
+            actions.decProdSel(product);
         } else if (e.target.closest(".fa-plus")) {
-            incProdSel(product);
+            actions.incProdSel(product);
         }
     };
 
@@ -28,12 +26,12 @@ function OpsBtns({ isZero, setIsZero, product, incProdSel, decProdSel }) {
                 <div className="relative">
                     <i
                         onClick={operation}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 fa-solid fa-minus bg-red-300 rounded-full p-1 cursor-pointer"
+                        className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer left-2 top-1/2 fa-solid fa-minus"
                     ></i>
                     <span>{product.quantity}</span>
                     <i
                         onClick={operation}
-                        className="absolute right-2  top-1/2 -translate-y-1/2 fa-solid fa-plus bg-red-300 rounded-full p-1 cursor-pointer"
+                        className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer right-2 top-1/2 fa-solid fa-plus"
                     ></i>
                 </div>
             )}
@@ -41,4 +39,4 @@ function OpsBtns({ isZero, setIsZero, product, incProdSel, decProdSel }) {
     );
 }
 
-export default OpsBtns
+export default OpsBtns;

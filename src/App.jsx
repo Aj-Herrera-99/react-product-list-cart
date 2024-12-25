@@ -33,6 +33,11 @@ const productsReducer = (state, action) => {
         });
         return newState;
     }
+
+    if (action.type === "RESET") {
+        const resetState = state.map((prod) => ({ ...prod, quantity: 0 }));
+        return resetState;
+    }
 };
 
 function App() {
@@ -51,6 +56,10 @@ function App() {
         dispatchProducts({ type: "REMOVE", prod: product });
     };
 
+    const resetQuantities = (data) => {
+        dispatchProducts({ type: "RESET" });
+    };
+
     useEffect(() => {
         fetch("../src/data.json")
             .then((res) => res.json())
@@ -59,48 +68,41 @@ function App() {
                     item.id = index + 1;
                     item.quantity = 0;
                 });
-                console.log(data);
                 dispatchProducts({ type: "FETCH_INIT", prod: data });
             });
     }, []);
 
-    // if(!isModal){
-    //     const root = document.getElementById("root");
-    // }
-
-    useEffect(() => {
-        console.log(products);
-    }, [products]);
-
     return (
         <>
-            <section className="products bg-red-300 w-full p-8 sm:w-4/6">
+            <section className="w-full p-8 bg-red-300 products sm:w-4/6">
                 <Header title="Desserts" />
-                <main className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <main className="grid grid-cols-1 gap-4 mt-8 sm:grid-cols-2 lg:grid-cols-3">
                     {products.map((product) => (
                         <Card
                             key={product.id}
                             product={product}
-                            incProdSel={incProdSel}
-                            decProdSel={decProdSel}
+                            actions={{incProdSel, decProdSel}}
                         ></Card>
                     ))}
                 </main>
             </section>
-            <section className="cart bg-red-400 w-full p-8 sm:w-2/6">
+            <section className="w-full p-8 bg-red-400 cart sm:w-2/6">
                 <Cart
                     products={products}
                     remProdSel={remProdSel}
                     isModal={isModal}
                     setIsModal={setIsModal}
+                    name="cart"
                 />
             </section>
             {isModal && (
-                <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                <div className="fixed -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
                     <Cart
                         products={products}
                         isModal={isModal}
                         setIsModal={setIsModal}
+                        name="modal"
+                        resetQuantities={resetQuantities}
                     />
                 </div>
             )}
