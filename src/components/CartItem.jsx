@@ -16,11 +16,15 @@ function CartItem({ product, name }) {
                     </div>
                 )}
                 <div className="flex flex-col justify-center ">
-                    <span>{product.name}</span>
+                    <span className="text-[#260f08]">{product.name}</span>
                     <div className="flex gap-4">
-                        <span>{product.quantity}x</span>
-                        <span>${product.price.toFixed(2)}</span>
-                        <span>
+                        <span className="text-[#c73a0f]">
+                            {product.quantity}x
+                        </span>
+                        <span className="text-[#87635a] font-normal">
+                            ${product.price.toFixed(2)}
+                        </span>
+                        <span className="text-[#87635a]">
                             ${(product.quantity * product.price).toFixed(2)}
                         </span>
                     </div>
@@ -29,7 +33,7 @@ function CartItem({ product, name }) {
             {name === "cart" && (
                 <i
                     onClick={() => remProdSel(product)}
-                    className="flex items-center justify-center w-6 border border-black rounded-full cursor-pointer fa-solid fa-xmark hover:scale-125 aspect-square"
+                    className="flex items-center justify-center w-6 border border-[#87635a] text-[#87635a] rounded-full cursor-pointer fa-solid fa-xmark hover:scale-110 aspect-square hover:text-[#260f08] hover:border-[#260f08]"
                 ></i>
             )}
         </div>

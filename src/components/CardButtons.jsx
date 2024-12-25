@@ -14,38 +14,49 @@ function CardButtons({ product }) {
     }, [product]);
 
     const operation = (e) => {
+        console.log(e.target);
         e.stopPropagation();
-        if (e.target.matches("div")) {
+        if (e.target.closest(".fa-minus")) {
+            decProdSel(product);
+        } else if (e.target.closest(".fa-plus")) {
+            incProdSel(product);
+        } else if (e.target.closest("div")) {
             if (isZero) {
                 incProdSel(product);
                 setIsZero(false);
             }
-        } else if (e.target.closest(".fa-minus")) {
-            decProdSel(product);
-        } else if (e.target.closest(".fa-plus")) {
-            incProdSel(product);
         }
     };
 
     return (
         <div
             onClick={operation}
-            className={`absolute w-1/2 sm:w-3/5 lg:w-3/4 xl:w-1/2 bg-white left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] select-none ${
-                isZero && "cursor-pointer"
-            }`}
+            className={`absolute min-w-40 w-1/2 sm:w-3/5 lg:w-3/4 xl:w-1/2 bg-white left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] outline-1 outline outline-[#ad8985] 
+             ${
+                 !isZero
+                     ? "bg-[#b3330c] outline-[#b3330c] text-white"
+                     : "hover:outline-[#b3330c] hover:text-[#b3330c] cursor-pointer"
+             }
+            `}
         >
             {isZero ? (
-                <>Add to Cart</>
+                <div className="flex items-center justify-center gap-2">
+                    <img
+                        src="assets/images/icon-add-to-cart.svg"
+                        alt="icon add to cart"
+                    />
+                    <span>Add to Cart</span>
+                </div>
             ) : (
                 <>
                     <i
                         onClick={operation}
-                        className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer left-2 top-1/2 fa-solid fa-minus"
+                        className="absolute p-1 -translate-y-1/2 border border-white rounded-full cursor-pointer left-2 top-1/2 fa-solid fa-minus hover:bg-white hover:text-[#b3330c]"
                     ></i>
                     <span>{product.quantity}</span>
                     <i
                         onClick={operation}
-                        className="absolute p-1 -translate-y-1/2 bg-red-300 rounded-full cursor-pointer right-2 top-1/2 fa-solid fa-plus"
+                        className="absolute p-1 -translate-y-1/2 border border-white rounded-full cursor-pointer right-2 top-1/2 fa-solid fa-plus hover:bg-white hover:text-[#b3330c]"
                     ></i>
                 </>
             )}

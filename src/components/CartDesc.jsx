@@ -8,7 +8,7 @@ function CartDesc({ name }) {
     return (
         <>
             {name === "cart" ? (
-                <h2 className="text-2xl font-bold">
+                <h2 className="text-2xl font-bold text-[#c73a0f]">
                     Your Cart ({products.count})
                 </h2>
             ) : (

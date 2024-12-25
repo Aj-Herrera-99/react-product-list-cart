@@ -13,7 +13,7 @@ function CartBtn({ name, children }) {
     return (
         <button
             onClick={handleClick}
-            className="w-full p-2 text-white bg-orange-600 rounded-3xl"
+            className="w-full py-3 text-white bg-[#c73a0f] rounded-3xl hover:bg-[#b3330c]"
         >
             {children}
         </button>

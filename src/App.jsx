@@ -15,7 +15,9 @@ const CardsSection = styled.section`
 `;
 const CartSection = styled.section`
     width: 100%;
-    padding-inline: 2rem;
+    @media (min-width: 640px) {
+        padding-inline: 2rem;
+    }
     @media (min-width: 768px) {
         width: calc(100% * (2 / 6));
     }
@@ -55,12 +57,12 @@ const ModalContainer = styled.div`
 
 function App() {
     const [initData, setInitData] = useState([]);
+    const [isModal, setIsModal] = useState(false);
     const [products, dispatchProducts] = useReducer(productsReducer, {
         prods: [],
         count: 0,
         total: 0,
     });
-    const [isModal, setIsModal] = useState(false);
 
     const incProdSel = (product) => {
         dispatchProducts({ type: "INCREMENT", prod: product });
@@ -108,26 +110,18 @@ function App() {
                 <Header title="Desserts" />
                 <Main>
                     {products.prods.map((product) => (
-                        <Card
-                            key={product.id}
-                            product={product}
-                        ></Card>
+                        <Card key={product.id} product={product}></Card>
                     ))}
                 </Main>
             </CardsSection>
             <CartSection>
-                <Cart
-                    name="cart"
-                />
+                <Cart name="cart" />
             </CartSection>
             <ModalContainer $isModal={isModal}>
-                <Cart
-                    name="modal"
-                />
+                <Cart name="modal" />
             </ModalContainer>
         </GlobalContext.Provider>
     );
 }
-
 
 export default App;
