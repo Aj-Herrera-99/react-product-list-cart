@@ -4,19 +4,13 @@ import CartItem from "./CartItem";
 import CartTotal from "./CartTotal";
 
 function Cart({ products, isModal, name, actions }) {
-    let count = 0;
-    let total = 0;
-    products.forEach((prod) => {
-        count += prod.quantity;
-        total += prod.quantity != 0 ? prod.price * prod.quantity : 0;
-    });
 
     return (
         <div
             className={`bg-white rounded-lg p-5 w-full ${name==="modal" && "max-h-[95vh] overflow-y-auto"} `}
         >
-            <CartDesc count={count} name={name} />
-            {products
+            <CartDesc count={products.count} name={name} />
+            {products.prods
                 .filter((product) => product.quantity > 0)
                 .map((product) => (
                     <CartItem
@@ -27,9 +21,9 @@ function Cart({ products, isModal, name, actions }) {
                         isModal={isModal}
                     />
                 ))}
-            {count !== 0 && (
+            {products.count !== 0 && (
                 <>
-                    <CartTotal total={total} />
+                    <CartTotal total={products.total} />
                     {name === "cart" ? (
                         <CartBtn setIsModal={actions.setIsModal}>
                             Confirm Order

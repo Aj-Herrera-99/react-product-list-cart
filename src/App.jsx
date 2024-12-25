@@ -54,7 +54,11 @@ const ModalContainer = styled.div`
 function App() {
     // todo: creare un altro stato per la gestione dei dessert in carrello (ottimizzazione)
     const [initData, setInitData] = useState([]);
-    const [products, dispatchProducts] = useReducer(productsReducer, []);
+    const [products, dispatchProducts] = useReducer(productsReducer, {
+        prods: [],
+        count: 0,
+        total: 0,
+    });
     const [isModal, setIsModal] = useState(false);
 
     const incProdSel = (product) => {
@@ -92,7 +96,7 @@ function App() {
             <CardsSection>
                 <Header title="Desserts" />
                 <Main>
-                    {products.map((product) => (
+                    {products.prods.map((product) => (
                         <Card
                             key={product.id}
                             product={product}
@@ -122,36 +126,53 @@ function App() {
 }
 
 function productsReducer(state, action) {
-    if (action.type === "FETCH_INIT") return action.prod;
+    if (action.type === "FETCH_INIT")
+        return { prods: action.prod, count: 0, total: 0 };
 
     if (action.type === "INCREMENT") {
-        const prodSel = state.find((prod) => prod.id === action.prod.id);
-        const newState = state.map((prod) => {
+        const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
+        const newState = state.prods.map((prod) => {
             return prod.id === prodSel.id
                 ? { ...prodSel, quantity: action.prod.quantity + 1 }
                 : prod;
         });
-        return newState;
+        return {
+            prods: newState,
+            count: state.count + 1,
+            total: state.total + action.prod.price,
+        };
     }
     if (action.type === "DECREMENT") {
-        const prodSel = state.find((prod) => prod.id === action.prod.id);
+        const prodSel = state.prods.find((prod) => prod.id === action.prod.id);
         if (action.prod.quantity === 0) return state;
-        const newState = state.map((prod) => {
+        const newState = state.prods.map((prod) => {
             return prod.id === prodSel.id
                 ? { ...prodSel, quantity: action.prod.quantity - 1 }
                 : prod;
         });
-        return newState;
+        return {
+            prods: newState,
+            count: state.count - 1,
+            total: state.total - action.prod.price,
+        };
     }
     if (action.type === "REMOVE") {
-        const newState = state.map((prod) => {
+        const subCount = action.prod.quantity;
+        const subTotal = action.prod.price * action.prod.quantity;
+        console.log(subCount);
+        console.log(subTotal);
+        const newState = state.prods.map((prod) => {
             return prod.id == action.prod.id ? { ...prod, quantity: 0 } : prod;
         });
-        return newState;
+        return {
+            prods: newState,
+            count: state.count - subCount,
+            total: state.total - subTotal,
+        };
     }
 
     if (action.type === "RESET") {
-        return action.prod;
+        return { prods: action.prod, count: 0, total: 0 };
     }
 }
 
