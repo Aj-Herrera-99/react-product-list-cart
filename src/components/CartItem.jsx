@@ -17,7 +17,7 @@ function CartItem({ product, name }) {
                 )}
                 <div className="flex flex-col justify-between ">
                     <span className="text-[#260f08]">{product.name}</span>
-                    <div className="flex gap-4">
+                    <div className="flex gap-2 lg:gap-4">
                         <span className="text-[#c73a0f]">
                             {product.quantity}x
                         </span>

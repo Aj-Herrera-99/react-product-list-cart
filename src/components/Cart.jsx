@@ -6,21 +6,37 @@ import CartTotal from "./CartTotal";
 import { GlobalContext } from "../state-management/stores/GlobalContext";
 import CartBadge from "./CartBadge";
 import CartEmptyIcon from "./CartEmptyIcon";
+import styled from "styled-components";
+
+const ItemContainer = styled.div`
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 50vh;
+    @media (orientation: landscape) and (max-height: 640px) {
+        max-height: 125px;
+    }
+`;
 
 function Cart({ name }) {
     const { products } = useContext(GlobalContext);
     return (
         <div
-            className={`bg-white rounded-lg p-5 mt-5 w-full font-semibold ${
-                name === "modal" && "max-h-[95vh] overflow-y-auto"
-            } `}
+            className={`bg-white rounded-lg p-5 mt-5 w-full font-semibold max-h-[95vh] ${
+                name == "cart" && "md:fixed md:max-w-[25vw]"
+            }`}
         >
             <CartDesc name={name} />
-            {products.prods
-                .filter((product) => product.quantity > 0)
-                .map((product) => (
-                    <CartItem key={product.id} name={name} product={product} />
-                ))}
+            <ItemContainer $name={name}>
+                {products.prods
+                    .filter((product) => product.quantity > 0)
+                    .map((product) => (
+                        <CartItem
+                            key={product.id}
+                            name={name}
+                            product={product}
+                        />
+                    ))}
+            </ItemContainer>
             {products.count !== 0 ? (
                 <>
                     <CartTotal />
@@ -35,7 +51,7 @@ function Cart({ name }) {
                     )}
                 </>
             ) : (
-                <CartEmptyIcon/>
+                <CartEmptyIcon />
             )}
         </div>
     );

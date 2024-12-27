@@ -2,7 +2,7 @@
     min-height: 100vh;
     display: flex;
     flex-wrap: wrap;
-    background-color: #fff4ec;
+    background-color: #FCF9F7;
     padding: 2rem;
     @media (min-width: 1024px) {
         padding-block: 5rem;
