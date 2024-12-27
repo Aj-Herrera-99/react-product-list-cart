@@ -14,7 +14,6 @@ function CardButtons({ product }) {
     }, [product]);
 
     const operation = (e) => {
-        console.log(e.target);
         e.stopPropagation();
         if (e.target.closest(".fa-minus")) {
             decProdSel(product);
@@ -31,11 +30,11 @@ function CardButtons({ product }) {
     return (
         <div
             onClick={operation}
-            className={`absolute min-w-40 w-1/2 sm:w-3/5 lg:w-3/4 xl:w-1/2 bg-white left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] outline-1 outline outline-[#ad8985] 
+            className={`absolute min-w-40 w-1/2 sm:w-3/5 lg:w-3/4 xl:w-1/2 left-1/2 -translate-x-1/2 text-center py-3 rounded-3xl bottom-[-20px] outline-1 outline outline-[#ad8985] 
              ${
                  !isZero
                      ? "bg-[#b3330c] outline-[#b3330c] text-white"
-                     : "hover:outline-[#b3330c] hover:text-[#b3330c] cursor-pointer"
+                     : "bg-white hover:outline-[#b3330c] hover:text-[#b3330c] cursor-pointer"
              }
             `}
         >
