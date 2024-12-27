@@ -81,7 +81,7 @@ function App() {
     };
 
     useEffect(() => {
-        fetch("../src/assets/data.json")
+        fetch("./assets/data.json")
             .then((res) => res.json())
             .then((data) => {
                 data.forEach((item, index) => {
